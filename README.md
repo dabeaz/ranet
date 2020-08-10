@@ -4,9 +4,10 @@
 * http://www.dabeaz.com
 
 This is a partial implementation of the Raft distributed consensus
-algorithm in Janet (see https://raft.github.io).  It is purely
-for educational purposes and my own amusement.  It is also my first
-non-trivial Janet program. Use at your own risk.
+algorithm (https://raft.github.io) in Janet
+(https://janet-lang.org). It is purely for educational purposes and my
+own amusement.  It is also my first non-trivial Janet program. Use at
+your own risk.
 
 Caution:  I had to add a new C-API function (net/ready) to poll
 the status of a stream.  This code will not work unless you use the
@@ -15,7 +16,7 @@ patched version of Janet at https://github.com/dabeaz/janet.
 ## How to use
 
 First, read the Raft paper to understand what's going on.  The goal
-of the algorithm is to maintain distributed replicated transaction
+of the algorithm is to maintain a distributed replicated transaction
 log.  To see this, you'll need to launch 3-5 separate
 terminal windows.  In each window, type the following command:
 
