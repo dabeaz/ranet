@@ -39,11 +39,11 @@
 (def ELECTION_TIMER_BASE 5)
 (def ELECTION_TIMER_JITTER 3)
 (def SERVERS @{
-	       0 @["localhost" 15000]
-	       1 @["localhost" 15001]
-	       2 @["localhost" 15002]
-	       3 @["localhost" 15003]
-	       4 @["localhost" 15004]
+	       0 @["127.0.0.1" 15000]
+	       1 @["127.0.0.1" 15001]
+	       2 @["127.0.0.1" 15002]
+	       3 @["127.0.0.1" 15003]
+	       4 @["127.0.0.1" 15004]
 	       }
   )
 
@@ -112,7 +112,7 @@
 	  )
 	)
       ([err]
-       #(print "ERROR:" err)
+       (print "ERROR:" err)
        (set sock nil)
        )
       )

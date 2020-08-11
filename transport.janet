@@ -15,16 +15,8 @@
 )
 
 (defn send-message [msg sock]
-  (if (net/ready sock)              # Caution: Non-standard.  
-    (do
-      (send-size (length msg) sock)
-      (net/write sock msg)
-      )
-    (do
-      (net/close sock)
-      (error "Connection closed")
-      )
-    )
+  (send-size (length msg) sock)
+  (net/write sock msg)
 )
 
 (defn receive-message [sock]
