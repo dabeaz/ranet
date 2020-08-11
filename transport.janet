@@ -7,9 +7,7 @@
 # messages across a socket.
 
 (defn send-size [size sock]
-  (def err (net/write sock (string/format "%10d" size)))
-  (if (not (nil? err))
-    (error err))
+  (net/write sock (string/format "%10d" size))
 )
 
 (defn receive-size [sock]
@@ -17,11 +15,11 @@
 )
 
 (defn send-message [msg sock]
-  (send-size (length msg) sock)
-  (def err (net/write sock msg))
-  (if (not (nil? err))
-    (error err))
-)
+  (if-let [e (send-size (length msg) sock)]
+    e
+    (net/write sock msg)
+    )
+  )
 
 (defn receive-message [sock]
     (net/chunk sock (receive-size sock))

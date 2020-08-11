@@ -97,27 +97,29 @@
   (def [host port] (SERVERS peer))
   (var sock nil)
   (while true
-    (try
+    (var msg (thread/receive 1000))
+    (if (nil? sock)
       (do
-	(var msg (thread/receive 1000))
-	(if (nil? sock)
-	  (do
-	    # (print "Trying to connect to " host port)
-	    (set sock (net/connect host port))
-	    # (print "Connected " sock)
-	    )
+	# (print "Trying to connect to " host port)
+	(try
+	  (set sock (net/connect host port))
+	  ([err] nil)
 	  )
-	(if (not (nil? sock))
-	  (transport/send-message (encode-message msg) sock)
+	# (print "Connected " sock)
+	)
+      )
+    (if (not (nil? sock))
+      (if-let [e (transport/send-message (encode-message msg) sock)]
+	(do
+	  (print e)
+	  (net/close sock)
+	  (set sock nil)
 	  )
 	)
-      ([err]
-       # (print "ERROR:" err)
-       (set sock nil)
-       )
       )
     )
   )
+ 
 
 # Event processor. This dispatches events to the core Raft algorithm.
 (defn process-events [serv control]
