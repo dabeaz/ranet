@@ -344,7 +344,7 @@
 
   # RequestVoteResponse message from a follower
   (defn handle-request-vote-response []
-    (if (msg :vote_granted)
+    (if (and (= (serv :state) 'CANDIDATE) (msg :vote_granted))
       (do
 	(put (serv :votes_granted) (msg :source) 1)
 	(if (>= (length (serv :votes_granted))

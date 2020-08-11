@@ -97,26 +97,32 @@
   (def [host port] (SERVERS peer))
   (var sock nil)
   (while true
-    (var msg (thread/receive 1000))
-    (if (nil? sock)
+    (try
       (do
-	# (print "Trying to connect to " host port)
-	(try
-	  (set sock (net/connect host port))
-	  ([err] nil)
+	(var msg (thread/receive 1000))
+	(if (nil? sock)
+	  (do
+	    # (print "Trying to connect to " host port)
+	    (try
+	      (set sock (net/connect host port))
+	      ([err] nil)
+	      )
+	    # (print "Connected " sock)
+	    )
 	  )
-	# (print "Connected " sock)
-	)
-      )
-    (if (not (nil? sock))
-      (try
-        (transport/send-message (encode-message msg) sock)
-	([err] 
-	  (print "Connection lost:" err)
-	  (net/close sock)
-	  (set sock nil)
+	(if (not (nil? sock))
+	  (try
+	    (transport/send-message (encode-message msg) sock)
+	    ([err] 
+	     (print "Connection lost:" err)
+	     (net/close sock)
+	     (set sock nil)
+	     )
+	    )
 	  )
-	)
+	)  # do
+      ([err]
+       (print err))
       )
     )
   )
