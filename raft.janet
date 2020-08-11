@@ -169,13 +169,15 @@
 (defn apply-state-machine [serv control]
   "Apply the state machine once consensus has been reached."
   (if (> (serv :commit_index) (serv :last_applied))
-    (:apply-state-machine control
-			  (array/slice (serv :log)
-				       (+ (serv :last_applied) 1)
-				       (+ (serv :commit_index) 1)
-				       )
-			  )
-    (put serv :last_applied (serv :commit_index))
+    (do
+      (:apply-state-machine control
+			    (array/slice (serv :log)
+					 (+ (serv :last_applied) 1)
+					 (+ (serv :commit_index) 1)
+					 )
+			    )
+      (put serv :last_applied (serv :commit_index))
+      )
     )
   )
 
@@ -326,7 +328,9 @@
     (if (or (> my_last_log_term (msg :last_log_term))
 	    (and (= my_last_log_term (msg :last_log_term))
 		 (> my_last_log_index (msg :last_log_index))))
-      (set success false))
+      (set success false)
+      )
+    
     (:send control (RequestVoteResponse
 		    (msg :dest)
 		    (msg :source)

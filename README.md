@@ -9,9 +9,8 @@ algorithm (https://raft.github.io) in Janet
 own amusement.  It is also my first non-trivial Janet program. Use at
 your own risk.
 
-Caution:  I had to add a new C-API function (net/ready) to poll
-the status of a stream.  This code will not work unless you use the
-patched version of Janet at https://github.com/dabeaz/janet.
+Caution:  This code will not work unless you're working from the
+latest master branch of the Janet GitHub repo.
 
 ## How to use
 

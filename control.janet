@@ -112,7 +112,7 @@
 	  )
 	)
       ([err]
-       (print "ERROR:" err)
+       # (print "ERROR:" err)
        (set sock nil)
        )
       )
