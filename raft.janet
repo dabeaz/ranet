@@ -19,8 +19,8 @@
 # -- Log Entries
 
 (defn LogEntry [term item]
-  @{:term term
-    :item item}
+  {:term term
+   :item item}
   )
 
 (defn append-entries [log prev_index prev_term entries]
@@ -69,56 +69,56 @@
 # -- Internal Messages (only used between threads on the same server)
 
 (defn ClientAppendEntry [item]
-  @{:type 'ClientAppendEntry
-    :item item
-   }
+  {:type 'ClientAppendEntry
+   :item item
+  }
   )
 
 (defn RaftDebug []
-  @{:type 'RaftDebug}
+  {:type 'RaftDebug}
   )
 
 # -- Network Messages (sent between servers)
 
 (defn AppendEntries [source dest term prev_index prev_term entries commit_index]
-  @{:type 'AppendEntries
-    :source source
-    :dest dest
-    :term term
-    :prev_index prev_index
-    :prev_term prev_term
-    :entries entries
-    :commit_index commit_index
-   }
+  {:type 'AppendEntries
+   :source source
+   :dest dest
+   :term term
+   :prev_index prev_index
+   :prev_term prev_term
+   :entries entries
+   :commit_index commit_index
+  }
   )
 
 (defn AppendEntriesResponse [source dest term success match_index]
-  @{:type 'AppendEntriesResponse
-    :source source
-    :dest dest
-    :term term
-    :success success
-    :match_index match_index
-   }
+  {:type 'AppendEntriesResponse
+   :source source
+   :dest dest
+   :term term
+   :success success
+   :match_index match_index
+  }
   )
 
 (defn RequestVote [source dest term last_log_index last_log_term]
-  @{:type 'RequestVote
-    :source source
-    :dest dest
-    :term term
-    :last_log_index last_log_index
-    :last_log_term last_log_term
-   }
+  {:type 'RequestVote
+   :source source
+   :dest dest
+   :term term
+   :last_log_index last_log_index
+   :last_log_term last_log_term
+  }
   )
 
 (defn RequestVoteResponse [source dest term vote_granted]
-  @{:type 'RequestVoteResponse
-    :source source
-    :dest dest
-    :term term
-    :vote_granted vote_granted
-   }
+  {:type 'RequestVoteResponse
+   :source source
+   :dest dest
+   :term term
+   :vote_granted vote_granted
+  }
   )
 
 # -- Server state.
