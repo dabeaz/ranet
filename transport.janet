@@ -15,10 +15,8 @@
 )
 
 (defn send-message [msg sock]
-  (if-let [e (send-size (length msg) sock)]
-    e
-    (net/write sock msg)
-    )
+  (send-size (length msg) sock)
+  (net/write sock msg)
   )
 
 (defn receive-message [sock]

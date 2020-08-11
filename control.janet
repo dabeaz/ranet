@@ -109,9 +109,10 @@
 	)
       )
     (if (not (nil? sock))
-      (if-let [e (transport/send-message (encode-message msg) sock)]
-	(do
-	  (print e)
+      (try
+        (transport/send-message (encode-message msg) sock)
+	([err] 
+	  (print "Connection lost:" err)
 	  (net/close sock)
 	  (set sock nil)
 	  )
