@@ -315,8 +315,8 @@
   # RequestVote Message received from a Candidate
   (defn handle-request-vote []
     (var success true)
-    (if (and (not (nil? (serv :voted_for))) (not (= (serv :voted_for) (msg :source))))
-      (set success false)
+    (if (not (nil? (serv :voted_for)))
+      (set success (= (serv :voted_for) (msg :source)))
       )
     # Granting of a vote requires very careful reading of section 5.4.1 of the Raft
     # paper.  We only grant a vote if the candidate's log is at least as up-to-date
@@ -330,6 +330,8 @@
 		 (> my_last_log_index (msg :last_log_index))))
       (set success false)
       )
+
+    (if success (put serv :voted_for (msg :source)))
     
     (:send control (RequestVoteResponse
 		    (msg :dest)
